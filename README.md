@@ -1,6 +1,6 @@
 # Code Digest Generator
 
-![GitHub Release](https://img.shields.io/github/v/release/diekotto/gitingest?logo=githubactions)
+![GitHub Release](https://img.shields.io/github/v/release/diekotto/code-digest-action?logo=githubactions)
 ![Node](https://img.shields.io/badge/nodejs-v22-green?logo=nodedotjs)
 
 A GitHub Action that generates a comprehensive text digest of your codebase, optimized for Large Language Model (LLM) context windows. Perfect for documentation, code analysis, and AI-assisted development.
@@ -19,7 +19,7 @@ Add the following step to your GitHub Actions workflow:
 
 ```yaml
 - name: Generate Code Digest
-    uses: diekotto/gitingest@v1
+    uses: diekotto/code-digest-action@v1
   with:
     # Optional: Specify Node.js version (default: '22')
     node-version: '22'
@@ -56,7 +56,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Generate Code Digest
-        uses: diekotto/gitingest@v1
+        uses: diekotto/code-digest-action@v1
         
       - name: Download Digest
         uses: actions/download-artifact@v4
@@ -89,7 +89,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Author
 
-[Diego Maroto](https://github.com/diegomaroto)
+[Diego Maroto](https://github.com/diekotto)
 
 ## Support
 

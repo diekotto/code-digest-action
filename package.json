@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/diekotto/gitingest.git"
+    "url": "git+https://github.com/diekotto/code-digest-action.git"
   },
   "author": "Diego Maroto",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/diekotto/gitingest/issues"
+    "url": "https://github.com/diekotto/code-digest-action/issues"
   },
-  "homepage": "https://github.com/diekotto/gitingest#readme",
+  "homepage": "https://github.com/diekotto/code-digest-action#readme",
   "dependencies": {
     "ignore": "^7.0.3"
   },
