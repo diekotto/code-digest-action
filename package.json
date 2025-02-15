@@ -1,0 +1,26 @@
+{
+  "name": "gitingest",
+  "version": "1.0.0",
+  "description": "GHA version of the awesome tool gitingest. https://gitingest.com",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "esbuild src/main.js --bundle --platform=node --target=node22 --legal-comments=none --outfile=bin/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diekotto/gitingest.git"
+  },
+  "author": "Diego Maroto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/diekotto/gitingest/issues"
+  },
+  "homepage": "https://github.com/diekotto/gitingest#readme",
+  "dependencies": {
+    "ignore": "^7.0.3"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

@@ -1,0 +1,45 @@
+name: "Code Digest Generator"
+description: "Generate a text digest of your codebase, perfect for LLM context"
+author: "Diego Maroto"
+
+branding:
+  icon: "package"
+  color: "gray-dark"
+
+inputs:
+  node-version:
+    description: "Node.js version"
+    required: false
+    default: "22"
+    type: string
+  retention-days:
+    description: "Retention days for the artifact"
+    required: false
+    default: "90"
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Create Digest
+      shell: bash
+      env:
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        GITHUB_REF: ${{ github.ref }}
+        GITHUB_SHA: ${{ github.sha }}
+      run: |
+        node bin/main.js
+
+    - name: Upload Digest
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-digest
+        path: ./code-digest.txt
+        retention-days: ${{ inputs.retention-days }}
