@@ -3,11 +3,12 @@ const path = require('path');
 const ignore = require('ignore');
 
 function loadGitignore() {
-  const defaultToIgnore = ['node_modules', '.git', 'dist', 'build', '.env*', '*.log', 'bin'];
+  const defaultToIgnore = ['.gitignore','node_modules', '.git', 'dist', 'build', '.env*', '*.log', 'bin', 'package-lock.json'];
   try {
     const gitignoreContent = fs.readFileSync('.gitignore', 'utf8');
     const ignored = ignore().add(gitignoreContent);
     ignored.add(defaultToIgnore.join('\n'));
+    return ignored;
   } catch (error) {
     // If no .gitignore exists, return default ignore rules
     return ignore().add(defaultToIgnore.join('\n'));
