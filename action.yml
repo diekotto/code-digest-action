@@ -1,25 +1,33 @@
-name: "Code Digest Generator"
-description: "Generate a text digest of your codebase, perfect for LLM context"
-author: "Diego Maroto"
+name: 'Code Digest Generator'
+description: 'Generate a text digest of your codebase, perfect for LLM context'
+author: 'Diego Maroto'
 
 branding:
-  icon: "package"
-  color: "gray-dark"
+  icon: 'package'
+  color: 'gray-dark'
 
 inputs:
   node-version:
-    description: "Node.js version"
+    description: 'Node.js version'
     required: false
-    default: "22"
+    default: '22'
     type: string
   retention-days:
-    description: "Retention days for the artifact"
+    description: 'Retention days for the artifact'
     required: false
-    default: "90"
+    default: '90'
     type: string
+  ignore-patterns:
+    description: 'Additional patterns to ignore'
+    required: false
+    default: '.gitignore,.git,.env*,*.log'
+  pattern-separator:
+    description: 'Char to be expected as pattern separator'
+    required: false
+    default: ','
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - uses: actions/checkout@v4
 
@@ -34,12 +42,28 @@ runs:
         GITHUB_REPOSITORY: ${{ github.repository }}
         GITHUB_REF: ${{ github.ref }}
         GITHUB_SHA: ${{ github.sha }}
+        IGNORE_PATTERNS: ${{ inputs.ignore-patterns }}
+        PATTERN_SEPARATOR: ${{ inputs.pattern-separator }}
       run: |
         node bin/main.js
 
-    - name: Upload Digest
+    - name: Upload Code Digest
       uses: actions/upload-artifact@v4
       with:
         name: code-digest
         path: ./code-digest.txt
+        retention-days: ${{ inputs.retention-days }}
+
+    - name: Upload Summary
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-summary
+        path: ./code-summary.txt
+        retention-days: ${{ inputs.retention-days }}
+
+    - name: Upload Directory Tree
+      uses: actions/upload-artifact@v4
+      with:
+        name: directory-tree
+        path: ./directory-tree.txt
         retention-days: ${{ inputs.retention-days }}

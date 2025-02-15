@@ -7,10 +7,12 @@ A GitHub Action that generates a comprehensive text digest of your codebase, opt
 
 ## Features
 
-- 📝 Generates a readable digest of your codebase
+- 📊 Provides a concise metadata summary
+- 📝 Generates a detailed digest of your codebase
+- 🌳 Creates a visual directory tree structure
 - 🚀 Fast execution with Node.js
 - 🔒 Secure artifact storage
-- ⚙️ Configurable retention period
+- ⚙️ Configurable file ignoring patterns
 - 🔄 Compatible with CI/CD workflows
 
 ## Usage
@@ -19,24 +21,36 @@ Add the following step to your GitHub Actions workflow:
 
 ```yaml
 - name: Generate Code Digest
-    uses: diekotto/code-digest-action@v1
+  uses: diekotto/code-digest-action@v1
   with:
     # Optional: Specify Node.js version (default: '22')
     node-version: '22'
     # Optional: Set artifact retention period in days (default: '90')
     retention-days: '90'
+    # Optional: Additional patterns to ignore (default: '.gitignore,node_modules,.git,.env*,*.log')
+    ignore-patterns: '.gitignore,node_modules,.git,.env*,*.log'
+    # Optional: Character separator for ignore patterns (default: ',')
+    pattern-separator: ','
 ```
 
 ## Configuration
 
-| Input | Description | Required | Default |
-|-------|-------------|----------|----------|
-| `node-version` | Node.js version to use | No | `'22'` |
-| `retention-days` | Number of days to retain the generated artifact | No | `'90'` |
+| Input               | Description                                      | Required | Default                                      |
+| ------------------- | ------------------------------------------------ | -------- | -------------------------------------------- |
+| `node-version`      | Node.js version to use                           | No       | `'22'`                                       |
+| `retention-days`    | Number of days to retain the generated artifacts | No       | `'90'`                                       |
+| `ignore-patterns`   | Additional patterns to ignore                    | No       | `'.gitignore,node_modules,.git,.env*,*.log'` |
+| `pattern-separator` | Character to separate ignore patterns            | No       | `','`                                        |
 
-## Output
+## Outputs
 
-The action generates a `code-digest.txt` file containing your codebase digest and uploads it as a workflow artifact named `code-digest`.
+The action generates three separate artifacts:
+
+1. `code-digest`: A comprehensive digest containing all code content
+2. `code-summary`: A metadata overview including repository details and file count
+3. `directory-tree`: A visual representation of your project's structure
+
+Each artifact is independently downloadable from the GitHub Actions interface.
 
 ## Example Workflow
 
@@ -45,35 +59,70 @@ name: Generate Code Digest
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   digest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Generate Code Digest
         uses: diekotto/code-digest-action@v1
-        
-      - name: Download Digest
+
+      # Download specific artifacts as needed
+      - name: Download Full Digest
         uses: actions/download-artifact@v4
         with:
           name: code-digest
+
+      - name: Download Directory Tree
+        uses: actions/download-artifact@v4
+        with:
+          name: directory-tree
+```
+
+## Output Examples
+
+### Directory Tree Structure
+
+```
+Directory structure:
+└── your-project/
+    ├── README.md
+    ├── LICENSE
+    ├── package.json
+    └── src/
+        └── main.js
+```
+
+### Code Summary
+
+```
+===============================
+Code Digest
+===============================
+Generated: 2024-02-15T10:00:00.000Z
+Repository: owner/repo
+Branch: main
+Commit: abc123
+Files Processed: 42
+===============================
 ```
 
 ## Use Cases
 
-- **Code Reviews**: Provide context for pull request reviews
-- **Documentation**: Generate codebase summaries
-- **AI Integration**: Create context for LLM-powered development tools
-- **Archival**: Maintain searchable snapshots of your codebase
+- **Code Reviews**: Provide structured context for pull request reviews
+- **Documentation**: Generate detailed codebase summaries and structure overviews
+- **AI Integration**: Create optimized context for LLM-powered development tools
+- **Archival**: Maintain searchable and structured snapshots of your codebase
 
 ## Security
 
 This action:
+
 - Uses specific versions of dependent actions
 - Runs in an isolated environment
 - Doesn't require any sensitive permissions
