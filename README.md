@@ -130,7 +130,7 @@ This action:
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## License
 
