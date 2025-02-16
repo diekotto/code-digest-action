@@ -11,7 +11,7 @@
   ],
   "main": "bin/code-digest.js",
   "scripts": {
-    "build": "esbuild src/main.js --bundle --platform=node --target=node22 --legal-comments=none --outfile=bin/main.js",
+    "build": "esbuild bin/code-digest.js --bundle --minify --platform=node --target=node22 --legal-comments=none --outfile=build/index.js",
     "format": "prettier --write .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky"
