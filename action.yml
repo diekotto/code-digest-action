@@ -86,8 +86,8 @@ runs:
           --ignore "${{ inputs.ignore-patterns }}" \
           --gitignore "${{ inputs.gitignore-path }}" \
           --max-size "${{ inputs.max-file-size }}" \
-          ${{ inputs.include-binary && '--include-binary' }} \
-          ${{ inputs.include-dot && '--include-dot' }} \
+          ${{ inputs.include-binary == true && '--include-binary' || '' }} \
+          ${{ inputs.include-dot == true && '--include-dot' || '' }} \
           --format "${{ inputs.output-format }}"
 
     - name: Upload Digest Files
