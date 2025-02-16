@@ -139,7 +139,7 @@ async function main() {
     console.log(`- Files processed: ${result.metadata.stats.filesProcessed}`);
     console.log(`- Files skipped: ${result.metadata.stats.filesSkipped}`);
     console.log(`- Total size: ${(result.metadata.stats.totalSize / 1024 / 1024).toFixed(2)} MB`);
-    console.log(`- Execution time: ${result.metadata.executionTime}ms`);
+    console.log(`- Execution time: ${result.metadata.executionTime}`);
 
     if (result.metadata.stats.errors.length > 0) {
       console.log('\nWarning: Some files could not be processed:');
