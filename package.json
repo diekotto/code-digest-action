@@ -1,8 +1,15 @@
 {
-  "name": "gitingest",
+  "name": "code-digest",
   "version": "1.0.0",
   "description": "GHA version of the awesome tool gitingest. https://gitingest.com",
-  "main": "dist/main.js",
+  "keywords": [
+    "tools",
+    "utilities",
+    "code-scanning",
+    "code-digest",
+    "gitingest"
+  ],
+  "main": "bin/code-digest.js",
   "scripts": {
     "build": "esbuild src/main.js --bundle --platform=node --target=node22 --legal-comments=none --outfile=bin/main.js",
     "format": "prettier --write .",
@@ -28,5 +35,9 @@
     "git-format-staged": "^3.1.1",
     "husky": "^9.1.7",
     "prettier": "^3.5.1"
-  }
+  },
+  "files": [
+    "lib",
+    "bin"
+  ]
 }
