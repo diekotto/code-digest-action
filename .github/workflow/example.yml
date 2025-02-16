@@ -1,4 +1,4 @@
-name: Generate Code Digest
+name: Example Code Digest
 on:
   push:
     branches: [main]
@@ -10,8 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate Code Digest
-        uses: diego-maroto/code-digest-generator@${{ github.ref_name }}
+      - name: Code Digest
+        uses: diekotto/code-digest-action@${{ github.ref_name }}
         with:
           directory: 'lib'
           output-format: 'text'

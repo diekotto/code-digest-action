@@ -21,34 +21,34 @@ Add the following step to your GitHub Actions workflow:
 
 ```yaml
 - name: Generate Code Digest
-  uses: diekotto/code-digest-action@v1
+  uses: diekotto/code-digest-action@v2
   with:
-    # Optional: Specify Node.js version (default: '22')
-    node-version: '22'
-    # Optional: Set artifact retention period in days (default: '90')
-    retention-days: '90'
-    # Optional: Additional patterns to ignore (default: '.gitignore,node_modules,.git,.env*,*.log')
-    ignore-patterns: '.gitignore,node_modules,.git,.env*,*.log'
-    # Optional: Character separator for ignore patterns (default: ',')
-    pattern-separator: ','
+    directory: 'src'
+    output-format: 'text'
 ```
 
 ## Configuration
 
-| Input               | Description                                      | Required | Default                                      |
-| ------------------- | ------------------------------------------------ | -------- | -------------------------------------------- |
-| `node-version`      | Node.js version to use                           | No       | `'22'`                                       |
-| `retention-days`    | Number of days to retain the generated artifacts | No       | `'90'`                                       |
-| `ignore-patterns`   | Additional patterns to ignore                    | No       | `'.gitignore,node_modules,.git,.env*,*.log'` |
-| `pattern-separator` | Character to separate ignore patterns            | No       | `','`                                        |
+| Input             | Description                          | Required | Default                |
+| ----------------- | ------------------------------------ | -------- | ---------------------- |
+| `node-version`    | Node.js version to use               | No       | `'22'`                 |
+| `directory`       | Directory to analyze                 | No       | `'.'`                  |
+| `output-dir`      | Output directory for generated files | No       | `'code-digest-output'` |
+| `ignore-patterns` | Additional patterns to ignore        | No       | `''`                   |
+| `gitignore-path`  | Path to custom .gitignore file       | No       | `'.gitignore'`         |
+| `max-file-size`   | Maximum file size in MB              | No       | `'10'`                 |
+| `include-binary`  | Include binary files in the digest   | No       | `'false'`              |
+| `include-dot`     | Include dot files in the tree        | No       | `'false'`              |
+| `output-format`   | Output format (json, text, or both)  | No       | `'text'`               |
+| `retention-days`  | Number of days to retain artifacts   | No       | `'90'`                 |
 
 ## Outputs
 
-The action generates three separate artifacts:
+The action generates the following artifacts:
 
-1. `code-digest`: A comprehensive digest containing all code content
-2. `code-summary`: A metadata overview including repository details and file count
-3. `directory-tree`: A visual representation of your project's structure
+1. A comprehensive digest containing all code content
+2. A metadata overview including repository details and file count
+3. A visual representation of your project's structure
 
 Each artifact is independently downloadable from the GitHub Actions interface.
 
@@ -70,18 +70,16 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Generate Code Digest
-        uses: diekotto/code-digest-action@v1
+        uses: diekotto/code-digest-action@v2
+        with:
+          directory: 'src'
+          output-format: 'both'
+          ignore-patterns: 'node_modules,dist,coverage'
 
-      # Download specific artifacts as needed
-      - name: Download Full Digest
+      - name: Download Digest Files
         uses: actions/download-artifact@v4
         with:
-          name: code-digest
-
-      - name: Download Directory Tree
-        uses: actions/download-artifact@v4
-        with:
-          name: directory-tree
+          name: code-digest-files
 ```
 
 ## Output Examples
@@ -115,9 +113,9 @@ Files Processed: 42
 ## Use Cases
 
 - **Code Reviews**: Provide structured context for pull request reviews
-- **Documentation**: Generate detailed codebase summaries and structure overviews
+- **Documentation**: Generate detailed codebase summaries
 - **AI Integration**: Create optimized context for LLM-powered development tools
-- **Archival**: Maintain searchable and structured snapshots of your codebase
+- **Archival**: Maintain searchable snapshots of your codebase
 
 ## Security
 
@@ -127,10 +125,6 @@ This action:
 - Runs in an isolated environment
 - Doesn't require any sensitive permissions
 - Stores artifacts securely in GitHub's infrastructure
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## License
 
