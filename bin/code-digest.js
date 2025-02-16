@@ -31,6 +31,7 @@ const argv = yargs(hideBin(process.argv))
     gitignore: {
       describe: 'Path to custom .gitignore file',
       type: 'string',
+      default: '.gitignore',
     },
     'max-size': {
       describe: 'Maximum file size in MB',
@@ -93,10 +94,18 @@ async function writeOutput(outputDir, data, format = 'both') {
       console.log(`✓ Tree (JSON) written to: ${treeJsonPath}`);
     }
 
-    // Write files digest
-    const digestPath = path.join(outputDir, `digest-${timestamp}.json`);
-    await fs.writeFile(digestPath, JSON.stringify(data.files, null, 2));
-    console.log(`✓ Files digest written to: ${digestPath}`);
+    // Write files digest based on format
+    if (format === 'text' || format === 'both') {
+      const digestPath = path.join(outputDir, `digest-${timestamp}.txt`);
+      await fs.writeFile(digestPath, data.files.text);
+      console.log(`✓ Files digest written to: ${digestPath}`);
+    }
+
+    if (format === 'json' || format === 'both') {
+      const digestPath = path.join(outputDir, `digest-${timestamp}.json`);
+      await fs.writeFile(digestPath, JSON.stringify(data.files.json, null, 2));
+      console.log(`✓ Files digest written to: ${digestPath}`);
+    }
   } catch (error) {
     console.error(`Error writing output: ${error.message}`);
     process.exit(1);
