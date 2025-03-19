@@ -1,0 +1,60 @@
+name: Publish GitHub Action
+
+on:
+  push:
+    branches:
+      - release
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Get version from package.json
+        id: package-version
+        run: echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.package-version.outputs.VERSION }}
+          release_name: Release v${{ steps.package-version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+          body: |
+            Code Digest Action v${{ steps.package-version.outputs.VERSION }}
+
+            ## What's Changed
+            * Automated release from the release branch
+
+            For full changelog, please see the commit history.
+
+      - name: Update major version tag
+        run: |
+          MAJOR_VERSION=$(echo ${{ steps.package-version.outputs.VERSION }} | cut -d. -f1)
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git tag -f v${MAJOR_VERSION}
+          git push -f origin v${MAJOR_VERSION}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
