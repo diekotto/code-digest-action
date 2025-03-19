@@ -1,6 +1,6 @@
 {
   "name": "@diekotto/code-digest",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "GHA version of the awesome tool gitingest. https://gitingest.com",
   "keywords": [
     "tools",
@@ -10,6 +10,9 @@
     "gitingest"
   ],
   "main": "bin/code-digest.js",
+  "bin": {
+    "code-digest": "./bin/code-digest.js"
+  },
   "scripts": {
     "build": "esbuild bin/code-digest.js --bundle --minify --platform=node --target=node22 --legal-comments=none --outfile=build/code-digest.js",
     "format": "prettier --write .",
