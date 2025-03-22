@@ -3,6 +3,7 @@
 const { createDigest } = require('../lib');
 const path = require('path');
 const fs = require('fs').promises;
+const packageInfo = require('../package.json');
 
 // Parse command line arguments
 const yargs = require('yargs/yargs');
@@ -37,11 +38,6 @@ const argv = yargs(hideBin(process.argv))
       describe: 'Maximum file size in MB',
       type: 'number',
       default: 10,
-    },
-    'include-binary': {
-      describe: 'Include binary files in the digest',
-      type: 'boolean',
-      default: false,
     },
     'include-dot': {
       describe: 'Include dot files in the tree',
@@ -114,6 +110,7 @@ async function writeOutput(outputDir, data, format = 'both') {
 
 async function main() {
   try {
+    console.log(`Code Digest v${packageInfo.version}`);
     console.log('Starting code digest...');
 
     // Initialize code digest with CLI options
@@ -121,7 +118,6 @@ async function main() {
       ignorePatterns: argv.ignore ? argv.ignore.split(',') : [],
       gitignorePath: argv.gitignore,
       maxFileSize: argv.maxSize * 1024 * 1024,
-      includeBinaryFiles: argv.includeBinary,
       includeDotFiles: argv.includeDot,
     }).initialize();
 

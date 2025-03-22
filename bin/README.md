@@ -26,16 +26,15 @@ npx @diekotto/code-digest [options]
 
 ## Options
 
-| Option             | Alias | Description                                     | Default                   |
-| ------------------ | ----- | ----------------------------------------------- | ------------------------- |
-| `--directory`      | `-d`  | Directory to analyze                            | Current working directory |
-| `--output`         | `-o`  | Output directory for generated files            | `code-digest-output`      |
-| `--ignore`         | `-i`  | Additional patterns to ignore (comma separated) | -                         |
-| `--gitignore`      | -     | Path to custom .gitignore file                  | `.gitignore`              |
-| `--max-size`       | -     | Maximum file size in MB                         | 10                        |
-| `--include-binary` | -     | Include binary files in the digest              | `false`                   |
-| `--include-dot`    | -     | Include dot files in the tree                   | `false`                   |
-| `--format`         | `-f`  | Output format (json, text, or both)             | `text`                    |
+| Option          | Alias | Description                                     | Default                   |
+| --------------- | ----- | ----------------------------------------------- | ------------------------- |
+| `--directory`   | `-d`  | Directory to analyze                            | Current working directory |
+| `--output`      | `-o`  | Output directory for generated files            | `code-digest-output`      |
+| `--ignore`      | `-i`  | Additional patterns to ignore (comma separated) | -                         |
+| `--gitignore`   | -     | Path to custom .gitignore file                  | `.gitignore`              |
+| `--max-size`    | -     | Maximum file size in MB                         | 10                        |
+| `--include-dot` | -     | Include dot files in the tree                   | `false`                   |
+| `--format`      | `-f`  | Output format (json, text, or both)             | `text`                    |
 
 ## Examples
 
@@ -55,12 +54,6 @@ code-digest -d ./src -o ./output
 
 ```bash
 code-digest -i "*.log,*.tmp" --max-size 5
-```
-
-4. Generate JSON-only output including binary and dot files:
-
-```bash
-code-digest --format json --include-binary --include-dot
 ```
 
 ## Output Files
@@ -118,7 +111,6 @@ The tool will:
 ## Limitations
 
 - Maximum file size is configurable but defaults to 10MB
-- Binary files are excluded by default
 - Dot files are excluded by default
 - Follows .gitignore patterns by default
 

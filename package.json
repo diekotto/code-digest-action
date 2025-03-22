@@ -1,6 +1,6 @@
 {
   "name": "@diekotto/code-digest",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "GHA version of the awesome tool gitingest. https://gitingest.com",
   "keywords": [
     "tools",

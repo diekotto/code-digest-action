@@ -43,12 +43,6 @@ inputs:
     default: '10'
     type: string
 
-  include-binary:
-    description: 'Include binary files in the digest'
-    required: false
-    default: false
-    type: boolean
-
   include-dot:
     description: 'Include dot files in the tree'
     required: false
@@ -86,7 +80,6 @@ runs:
           --ignore "${{ inputs.ignore-patterns }}" \
           --gitignore "${{ inputs.gitignore-path }}" \
           --max-size "${{ inputs.max-file-size }}" \
-          ${{ inputs.include-binary == true && '--include-binary' || '' }} \
           ${{ inputs.include-dot == true && '--include-dot' || '' }} \
           --format "${{ inputs.output-format }}"
 
