@@ -2,8 +2,16 @@
 
 ![GitHub Release](https://img.shields.io/github/v/release/diekotto/code-digest-action?logo=githubactions)
 ![Node](https://img.shields.io/badge/nodejs-v22-green?logo=nodedotjs)
+![npm](https://img.shields.io/npm/v/@diekotto/code-digest)
 
-A GitHub Action that generates a comprehensive text digest of your codebase, optimized for Large Language Model (LLM) context windows. Perfect for documentation, code analysis, and AI-assisted development.
+### Coverage
+
+![Statements](https://img.shields.io/badge/statements-91.68%25-brightgreen)
+![Branches](https://img.shields.io/badge/branches-79.12%25-yellowgreen)
+![Functions](https://img.shields.io/badge/functions-87.87%25-green)
+![Lines](https://img.shields.io/badge/lines-91.68%25-brightgreen)
+
+A comprehensive tool for generating detailed code digests of your codebase, optimized for Large Language Model (LLM) context windows. Perfect for documentation, code analysis, and AI-assisted development.
 
 ## Features
 
@@ -15,7 +23,9 @@ A GitHub Action that generates a comprehensive text digest of your codebase, opt
 - ⚙️ Configurable file ignoring patterns
 - 🔄 Compatible with CI/CD workflows
 
-## Usage
+## Usage Options
+
+### Option 1: GitHub Action
 
 Add the following step to your GitHub Actions workflow:
 
@@ -27,7 +37,31 @@ Add the following step to your GitHub Actions workflow:
     output-format: 'text'
 ```
 
+### Option 2: CLI Tool via NPX
+
+Run directly without installing:
+
+```bash
+npx @diekotto/code-digest --directory ./src --output ./output
+```
+
+### Option 3: Globally Installed CLI
+
+Install globally:
+
+```bash
+npm install -g @diekotto/code-digest
+```
+
+Then use anywhere:
+
+```bash
+code-digest --directory ./src --format both
+```
+
 ## Configuration
+
+### GitHub Action Configuration
 
 | Input             | Description                          | Required | Default                |
 | ----------------- | ------------------------------------ | -------- | ---------------------- |
@@ -42,17 +76,32 @@ Add the following step to your GitHub Actions workflow:
 | `output-format`   | Output format (json, text, or both)  | No       | `'text'`               |
 | `retention-days`  | Number of days to retain artifacts   | No       | `'90'`                 |
 
-## Outputs
+### CLI Options
 
-The action generates the following artifacts:
+| Option             | Alias | Description                                     | Default                   |
+| ------------------ | ----- | ----------------------------------------------- | ------------------------- |
+| `--directory`      | `-d`  | Directory to analyze                            | Current working directory |
+| `--output`         | `-o`  | Output directory for generated files            | `code-digest-output`      |
+| `--ignore`         | `-i`  | Additional patterns to ignore (comma separated) | -                         |
+| `--gitignore`      | -     | Path to custom .gitignore file                  | `.gitignore`              |
+| `--max-size`       | -     | Maximum file size in MB                         | 10                        |
+| `--include-binary` | -     | Include binary files in the digest              | `false`                   |
+| `--include-dot`    | -     | Include dot files in the tree                   | `false`                   |
+| `--format`         | `-f`  | Output format (json, text, or both)             | `text`                    |
 
-1. A comprehensive digest containing all code content
-2. A metadata overview including repository details and file count
-3. A visual representation of your project's structure
+## Output Files
 
-Each artifact is independently downloadable from the GitHub Actions interface.
+The tool generates multiple files with a timestamp in the output directory:
+
+- `metadata-{timestamp}.json`: Contains overall statistics and execution information
+- `tree-{timestamp}.txt`: Text representation of the directory structure (if format includes 'text')
+- `tree-{timestamp}.json`: JSON representation of the directory structure (if format includes 'json')
+- `digest-{timestamp}.txt`: Detailed file information in text format (if format includes 'text')
+- `digest-{timestamp}.json`: Detailed file information in JSON format (if format includes 'json')
 
 ## Example Workflow
+
+### GitHub Actions Workflow
 
 ```yaml
 name: Generate Code Digest
@@ -82,32 +131,30 @@ jobs:
           name: code-digest-files
 ```
 
-## Output Examples
+### CLI Usage Examples
 
-### Directory Tree Structure
+1. Generate digest for current directory:
 
-```
-Directory structure:
-└── your-project/
-    ├── README.md
-    ├── LICENSE
-    ├── package.json
-    └── src/
-        └── main.js
+```bash
+npx @diekotto/code-digest
 ```
 
-### Code Summary
+2. Generate digest for a specific directory with custom output location:
 
+```bash
+npx @diekotto/code-digest -d ./src -o ./output
 ```
-===============================
-Code Digest
-===============================
-Generated: 2024-02-15T10:00:00.000Z
-Repository: owner/repo
-Branch: main
-Commit: abc123
-Files Processed: 42
-===============================
+
+3. Ignore specific patterns and set custom max file size:
+
+```bash
+npx @diekotto/code-digest -i "*.log,*.tmp" --max-size 5
+```
+
+4. Generate JSON-only output including binary and dot files:
+
+```bash
+npx @diekotto/code-digest --format json --include-binary --include-dot
 ```
 
 ## Use Cases
@@ -119,12 +166,12 @@ Files Processed: 42
 
 ## Security
 
-This action:
+This tool:
 
-- Uses specific versions of dependent actions
+- Uses specific versions of dependent actions (when used as a GitHub Action)
 - Runs in an isolated environment
 - Doesn't require any sensitive permissions
-- Stores artifacts securely in GitHub's infrastructure
+- Stores artifacts securely
 
 ## License
 

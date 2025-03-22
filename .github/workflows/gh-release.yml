@@ -1,6 +1,7 @@
 name: Publish GitHub Action
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - release
@@ -31,29 +32,39 @@ jobs:
         id: package-version
         run: echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
 
+      - name: Config git
+        id: config_git
+        run: |
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        run: |
+          # Create a release notes file
+          cat > release_notes.md << EOF
+          Code Digest Action v${{ steps.package-version.outputs.VERSION }}
+
+          ## What's Changed
+          * Automated release from the release branch
+
+          For full changelog, please see the commit history.
+          EOF
+
+          # Create a tag
+          git tag -a v${{ steps.package-version.outputs.VERSION }} -m "Release v${{ steps.package-version.outputs.VERSION }}"
+          git push origin v${{ steps.package-version.outputs.VERSION }}
+
+          # Create the release using GitHub CLI
+          gh release create v${{ steps.package-version.outputs.VERSION }} \
+            --title "Release v${{ steps.package-version.outputs.VERSION }}" \
+            --notes-file release_notes.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ steps.package-version.outputs.VERSION }}
-          release_name: Release v${{ steps.package-version.outputs.VERSION }}
-          draft: false
-          prerelease: false
-          body: |
-            Code Digest Action v${{ steps.package-version.outputs.VERSION }}
-
-            ## What's Changed
-            * Automated release from the release branch
-
-            For full changelog, please see the commit history.
 
       - name: Update major version tag
         run: |
           MAJOR_VERSION=$(echo ${{ steps.package-version.outputs.VERSION }} | cut -d. -f1)
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
           git tag -f v${MAJOR_VERSION}
           git push -f origin v${MAJOR_VERSION}
         env:
