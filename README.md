@@ -6,10 +6,10 @@
 
 ### Coverage
 
-![Statements](https://img.shields.io/badge/statements-91.68%25-brightgreen)
-![Branches](https://img.shields.io/badge/branches-79.12%25-yellowgreen)
+![Statements](https://img.shields.io/badge/statements-91.78%25-brightgreen)
+![Branches](https://img.shields.io/badge/branches-79.78%25-yellowgreen)
 ![Functions](https://img.shields.io/badge/functions-87.87%25-green)
-![Lines](https://img.shields.io/badge/lines-91.68%25-brightgreen)
+![Lines](https://img.shields.io/badge/lines-91.78%25-brightgreen)
 
 A comprehensive tool for generating detailed code digests of your codebase, optimized for Large Language Model (LLM) context windows. Perfect for documentation, code analysis, and AI-assisted development.
 
