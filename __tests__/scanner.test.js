@@ -20,6 +20,7 @@ describe('FileScanner', () => {
     const { digest, stats } = await scanner.scanDirectory({
       dirPath: process.cwd(),
       ignoreManager,
+      options: { includeDotFiles: true },
     });
 
     // Should include files from src and .github directories
