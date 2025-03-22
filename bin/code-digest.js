@@ -52,7 +52,7 @@ const argv = yargs(hideBin(process.argv))
       alias: 'f',
       describe: 'Output format (json or text)',
       choices: ['json', 'text', 'both'],
-      default: 'both',
+      default: 'text',
     },
   })
   .example('$0', 'Generate digest for current directory')

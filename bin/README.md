@@ -35,7 +35,7 @@ npx @diekotto/code-digest [options]
 | `--max-size`       | -     | Maximum file size in MB                         | 10                        |
 | `--include-binary` | -     | Include binary files in the digest              | `false`                   |
 | `--include-dot`    | -     | Include dot files in the tree                   | `false`                   |
-| `--format`         | `-f`  | Output format (json, text, or both)             | `both`                    |
+| `--format`         | `-f`  | Output format (json, text, or both)             | `text`                    |
 
 ## Examples
 
