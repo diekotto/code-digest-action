@@ -75,27 +75,6 @@ describe('FileScanner', () => {
     expect(smallFile).toBeDefined();
   });
 
-  test('should respect includeBinaryFiles option', async () => {
-    // Mock the _isBinaryFile method to always return true
-    const scanner = new FileScanner({
-      includeBinaryFiles: false,
-    });
-
-    const originalIsBinary = scanner._isBinaryFile;
-    scanner._isBinaryFile = jest.fn().mockResolvedValue(true);
-
-    const { digest } = await scanner.scanDirectory({
-      dirPath: process.cwd(),
-      ignoreManager,
-    });
-
-    // Should not include any files since all are considered binary
-    expect(digest).toEqual([]);
-
-    // Restore original method
-    scanner._isBinaryFile = originalIsBinary;
-  });
-
   test('should handle errors gracefully', async () => {
     // Mock fs.readFile to throw an error for a specific file
     const fs = require('fs').promises;

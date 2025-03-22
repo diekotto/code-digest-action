@@ -6,10 +6,10 @@
 
 ### Coverage
 
-![Statements](https://img.shields.io/badge/statements-91.78%25-brightgreen)
-![Branches](https://img.shields.io/badge/branches-79.78%25-yellowgreen)
+![Statements](https://img.shields.io/badge/statements-91.94%25-brightgreen)
+![Branches](https://img.shields.io/badge/branches-80.64%25-green)
 ![Functions](https://img.shields.io/badge/functions-87.87%25-green)
-![Lines](https://img.shields.io/badge/lines-91.78%25-brightgreen)
+![Lines](https://img.shields.io/badge/lines-91.94%25-brightgreen)
 
 A comprehensive tool for generating detailed code digests of your codebase, optimized for Large Language Model (LLM) context windows. Perfect for documentation, code analysis, and AI-assisted development.
 
@@ -71,23 +71,21 @@ code-digest --directory ./src --format both
 | `ignore-patterns` | Additional patterns to ignore        | No       | `''`                   |
 | `gitignore-path`  | Path to custom .gitignore file       | No       | `'.gitignore'`         |
 | `max-file-size`   | Maximum file size in MB              | No       | `'10'`                 |
-| `include-binary`  | Include binary files in the digest   | No       | `'false'`              |
 | `include-dot`     | Include dot files in the tree        | No       | `'false'`              |
 | `output-format`   | Output format (json, text, or both)  | No       | `'text'`               |
 | `retention-days`  | Number of days to retain artifacts   | No       | `'90'`                 |
 
 ### CLI Options
 
-| Option             | Alias | Description                                     | Default                   |
-| ------------------ | ----- | ----------------------------------------------- | ------------------------- |
-| `--directory`      | `-d`  | Directory to analyze                            | Current working directory |
-| `--output`         | `-o`  | Output directory for generated files            | `code-digest-output`      |
-| `--ignore`         | `-i`  | Additional patterns to ignore (comma separated) | -                         |
-| `--gitignore`      | -     | Path to custom .gitignore file                  | `.gitignore`              |
-| `--max-size`       | -     | Maximum file size in MB                         | 10                        |
-| `--include-binary` | -     | Include binary files in the digest              | `false`                   |
-| `--include-dot`    | -     | Include dot files in the tree                   | `false`                   |
-| `--format`         | `-f`  | Output format (json, text, or both)             | `text`                    |
+| Option          | Alias | Description                                     | Default                   |
+| --------------- | ----- | ----------------------------------------------- | ------------------------- |
+| `--directory`   | `-d`  | Directory to analyze                            | Current working directory |
+| `--output`      | `-o`  | Output directory for generated files            | `code-digest-output`      |
+| `--ignore`      | `-i`  | Additional patterns to ignore (comma separated) | -                         |
+| `--gitignore`   | -     | Path to custom .gitignore file                  | `.gitignore`              |
+| `--max-size`    | -     | Maximum file size in MB                         | 10                        |
+| `--include-dot` | -     | Include dot files in the tree                   | `false`                   |
+| `--format`      | `-f`  | Output format (json, text, or both)             | `text`                    |
 
 ## Output Files
 
@@ -149,12 +147,6 @@ npx @diekotto/code-digest -d ./src -o ./output
 
 ```bash
 npx @diekotto/code-digest -i "*.log,*.tmp" --max-size 5
-```
-
-4. Generate JSON-only output including binary and dot files:
-
-```bash
-npx @diekotto/code-digest --format json --include-binary --include-dot
 ```
 
 ## Use Cases

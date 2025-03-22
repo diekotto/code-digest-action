@@ -38,11 +38,6 @@ const argv = yargs(hideBin(process.argv))
       type: 'number',
       default: 10,
     },
-    'include-binary': {
-      describe: 'Include binary files in the digest',
-      type: 'boolean',
-      default: false,
-    },
     'include-dot': {
       describe: 'Include dot files in the tree',
       type: 'boolean',
@@ -121,7 +116,6 @@ async function main() {
       ignorePatterns: argv.ignore ? argv.ignore.split(',') : [],
       gitignorePath: argv.gitignore,
       maxFileSize: argv.maxSize * 1024 * 1024,
-      includeBinaryFiles: argv.includeBinary,
       includeDotFiles: argv.includeDot,
     }).initialize();
 
