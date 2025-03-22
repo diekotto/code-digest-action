@@ -11,6 +11,10 @@
 ![Functions](https://img.shields.io/badge/functions-87.87%25-green)
 ![Lines](https://img.shields.io/badge/lines-91.94%25-brightgreen)
 
+### Npm package
+
+> link: [@diekotto/code-digest](https://www.npmjs.com/package/@diekotto/code-digest)
+
 A comprehensive tool for generating detailed code digests of your codebase, optimized for Large Language Model (LLM) context windows. Perfect for documentation, code analysis, and AI-assisted development.
 
 ## Features
