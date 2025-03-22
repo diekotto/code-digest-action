@@ -1,4 +1,3 @@
-// __tests__/tree.test.js
 const { DirectoryTree } = require('../lib/tree');
 const { GitIgnoreManager } = require('../lib/gitignore');
 const { createMockFs } = require('./test-utils');

@@ -1,4 +1,3 @@
-// __tests__/gitignore.test.js
 const { GitIgnoreManager } = require('../lib/gitignore');
 const { createMockFs } = require('./test-utils');
 

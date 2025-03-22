@@ -1,4 +1,3 @@
-// __tests__/test-utils.js
 const mockFs = require('mock-fs');
 const path = require('path');
 const fs = require('fs').promises;
