@@ -17,6 +17,9 @@
     "build": "esbuild bin/code-digest.js --bundle --minify --platform=node --target=node22 --legal-comments=none --outfile=build/code-digest.js",
     "format": "prettier --write .",
     "test": "jest",
+    "test:coverage": "jest --coverage",
+    "update-badges": "node scripts/update-badges.js",
+    "coverage-badges": "npm run test:coverage && npm run update-badges",
     "prepare": "husky"
   },
   "repository": {

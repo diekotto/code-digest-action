@@ -9,19 +9,13 @@ const config = {
   testMatch: ['**/__tests__/**/*.js', '**/?(*.)+(spec|test).js'],
   collectCoverageFrom: ['lib/**/*.js'],
   coverageDirectory: 'coverage',
-  coverageReporters: ['text', 'lcov'],
+  coverageReporters: ['json-summary', 'text', 'lcov'],
   verbose: true,
-  testPathIgnorePatterns: [
-    '/node_modules/',
-    '/dist/',
-    'test-config.js',
-    'test-utils.js',
-    'test-helpers/'
-  ],
+  testPathIgnorePatterns: ['/node_modules/', '/dist/', 'test-config.js', 'test-utils.js', 'test-helpers/'],
   coveragePathIgnorePatterns: ['/node_modules/', '/build/'],
-  
+
   clearMocks: true,
-  coverageProvider: "v8",
+  coverageProvider: 'v8',
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: undefined,
