@@ -80,7 +80,7 @@ code-digest --directory ./src --format both
 | `--max-size`       | -     | Maximum file size in MB                         | 10                        |
 | `--include-binary` | -     | Include binary files in the digest              | `false`                   |
 | `--include-dot`    | -     | Include dot files in the tree                   | `false`                   |
-| `--format`         | `-f`  | Output format (json, text, or both)             | `both`                    |
+| `--format`         | `-f`  | Output format (json, text, or both)             | `text`                    |
 
 ## Output Files
 
