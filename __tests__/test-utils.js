@@ -6,9 +6,10 @@ const fs = require('fs').promises;
 /**
  * Create a mock filesystem for testing
  * @param {Object} structure - Structure of the mock filesystem
+ * @param {Boolean} emptyDefault - Decide if using or not the default fs structure
  * @returns {Function} Function to restore the real filesystem
  */
-function createMockFs(structure = {}) {
+function createMockFs(structure = {}, emptyDefault = false) {
   const defaultStructure = {
     '.gitignore': 'node_modules\n*.log\n',
     src: {
@@ -34,7 +35,7 @@ function createMockFs(structure = {}) {
   };
 
   mockFs({
-    ...defaultStructure,
+    ...(emptyDefault ? {} : defaultStructure),
     ...structure,
   });
 

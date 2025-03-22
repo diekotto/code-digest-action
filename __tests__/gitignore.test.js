@@ -54,9 +54,12 @@ describe('GitIgnoreManager', () => {
 
   test('should continue without .gitignore if file does not exist', async () => {
     restoreFs();
-    restoreFs = createMockFs({
-      // No .gitignore file
-    });
+    restoreFs = createMockFs(
+      {
+        // No .gitignore file
+      },
+      true,
+    );
 
     const manager = await new GitIgnoreManager().initialize();
     expect(manager.shouldIgnore('node_modules/file.js')).toBe(false);
