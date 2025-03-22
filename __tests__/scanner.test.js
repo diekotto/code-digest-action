@@ -121,4 +121,88 @@ describe('FileScanner', () => {
     // Restore original method
     fs.readFile = originalReadFile;
   });
+
+  test('should exclude dot files when includeDotFiles is false', async () => {
+    // Setup a mock filesystem with some dot files
+    restoreFs();
+    restoreFs = createMockFs({
+      '.env': 'SECRET=value',
+      '.config': 'some config',
+      'regular-file.txt': 'Regular content',
+    });
+
+    // Create scanner with default options (includeDotFiles: false)
+    const scanner = new FileScanner();
+    const { digest } = await scanner.scanDirectory({
+      dirPath: process.cwd(),
+      ignoreManager,
+    });
+
+    // Should not include dot files
+    const dotEnvFile = digest.find(file => file.path === '.env');
+    const dotConfigFile = digest.find(file => file.path === '.config');
+    const regularFile = digest.find(file => file.path === 'regular-file.txt');
+
+    expect(dotEnvFile).toBeUndefined();
+    expect(dotConfigFile).toBeUndefined();
+    expect(regularFile).toBeDefined();
+  });
+
+  test('should include dot files when includeDotFiles is true', async () => {
+    // Setup a mock filesystem with some dot files
+    restoreFs();
+    restoreFs = createMockFs({
+      '.env': 'SECRET=value',
+      '.config': 'some config',
+      'regular-file.txt': 'Regular content',
+    });
+
+    // Create scanner with includeDotFiles: true
+    const scanner = new FileScanner({
+      includeDotFiles: true,
+    });
+    const { digest } = await scanner.scanDirectory({
+      dirPath: process.cwd(),
+      ignoreManager,
+    });
+
+    // Should include dot files
+    const dotEnvFile = digest.find(file => file.path === '.env');
+    const dotConfigFile = digest.find(file => file.path === '.config');
+    const regularFile = digest.find(file => file.path === 'regular-file.txt');
+
+    expect(dotEnvFile).toBeDefined();
+    expect(dotConfigFile).toBeDefined();
+    expect(regularFile).toBeDefined();
+  });
+
+  test('should always exclude .git directory regardless of includeDotFiles setting', async () => {
+    // Setup a mock filesystem with .git files
+    restoreFs();
+    restoreFs = createMockFs({
+      '.git': {
+        HEAD: 'ref: refs/heads/main',
+        config: 'git config content',
+      },
+      '.env': 'SECRET=value',
+    });
+
+    // Test with includeDotFiles: true
+    const scanner = new FileScanner({
+      includeDotFiles: true,
+    });
+    const { digest } = await scanner.scanDirectory({
+      dirPath: process.cwd(),
+      ignoreManager,
+    });
+
+    // Should include .env but not .git files
+    const dotEnvFile = digest.find(file => file.path === '.env');
+    const gitHeadFile = digest.find(file => file.path === '.git/HEAD');
+    const gitConfigFile = digest.find(file => file.path === '.git/config');
+
+    expect(dotEnvFile).toBeDefined();
+    expect(gitHeadFile).toBeUndefined();
+    expect(gitConfigFile).toBeUndefined();
+  });
 });
