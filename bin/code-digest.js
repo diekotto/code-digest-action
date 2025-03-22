@@ -3,6 +3,7 @@
 const { createDigest } = require('../lib');
 const path = require('path');
 const fs = require('fs').promises;
+const packageInfo = require('../package.json');
 
 // Parse command line arguments
 const yargs = require('yargs/yargs');
@@ -109,6 +110,7 @@ async function writeOutput(outputDir, data, format = 'both') {
 
 async function main() {
   try {
+    console.log(`Code Digest v${packageInfo.version}`);
     console.log('Starting code digest...');
 
     // Initialize code digest with CLI options
