@@ -25,10 +25,10 @@ runs:
       run: |
         # Parse repository from github context
         REPO="${{ github.repository }}"
-        
+
         # Construct API URL
-        API_URL="https://api.github.com/repos/${REPO}/actions/workflows/${{ inputs.workflow-file }}/dispatches"
-        
+        API_URL="https://api.github.com/repos/diekotto/${REPO}/actions/workflows/${{ inputs.workflow-file }}/dispatches"
+
         # Prepare data payload with or without inputs
         if [ -z "${{ inputs.inputs }}" ]; then
           # No inputs provided, just use the ref
@@ -37,16 +37,16 @@ runs:
           # Inputs provided, include them in the payload
           DATA="{\"ref\":\"${{ inputs.ref }}\", \"inputs\": ${{ inputs.inputs }}}"
         fi
-        
+
         echo "Triggering workflow: ${{ inputs.workflow-file }}"
         echo "Repository: ${REPO}"
         echo "Reference: ${{ inputs.ref }}"
-        
+
         # Send the API request
         curl -X POST \
           -H "Authorization: token ${{ inputs.token }}" \
-          -H "Accept: application/vnd.github.v3+json" \
+          -H "Accept: application/vnd.github+json" \
           ${API_URL} \
           -d "${DATA}"
-        
+
         echo "Workflow trigger request sent"
