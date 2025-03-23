@@ -1,0 +1,52 @@
+name: 'Trigger GitHub Workflow'
+description: 'Triggers another workflow in the same repository using the workflow_dispatch event'
+inputs:
+  workflow-file:
+    description: 'Path to the workflow file to trigger (e.g., "target-workflow.yml")'
+    required: true
+  ref:
+    description: 'The git reference to run the workflow on (branch, tag, SHA)'
+    required: false
+    default: ${{ github.ref }}
+  token:
+    description: 'GitHub token with permissions to trigger workflows'
+    required: false
+    default: ${{ github.token }}
+  inputs:
+    description: 'JSON string containing inputs to pass to the workflow'
+    required: false
+    default: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Trigger Workflow
+      shell: bash
+      run: |
+        # Parse repository from github context
+        REPO="${{ github.repository }}"
+        
+        # Construct API URL
+        API_URL="https://api.github.com/repos/${REPO}/actions/workflows/${{ inputs.workflow-file }}/dispatches"
+        
+        # Prepare data payload with or without inputs
+        if [ -z "${{ inputs.inputs }}" ]; then
+          # No inputs provided, just use the ref
+          DATA="{\"ref\":\"${{ inputs.ref }}\"}"
+        else
+          # Inputs provided, include them in the payload
+          DATA="{\"ref\":\"${{ inputs.ref }}\", \"inputs\": ${{ inputs.inputs }}}"
+        fi
+        
+        echo "Triggering workflow: ${{ inputs.workflow-file }}"
+        echo "Repository: ${REPO}"
+        echo "Reference: ${{ inputs.ref }}"
+        
+        # Send the API request
+        curl -X POST \
+          -H "Authorization: token ${{ inputs.token }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          ${API_URL} \
+          -d "${DATA}"
+        
+        echo "Workflow trigger request sent"

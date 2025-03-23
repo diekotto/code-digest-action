@@ -2,9 +2,6 @@ name: Publish GitHub Action
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - release
 
 permissions:
   contents: write
@@ -69,3 +66,20 @@ jobs:
           git push -f origin v${MAJOR_VERSION}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  publish_packages:
+    runs-on: ubuntu-latest
+    needs: [build-and-release]
+    strategy:
+      matrix:
+        package:
+          - workflow: 'github-package-release.yml'
+          - workflow: 'npm-package-release.yml'
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Trigger ${{ matrix.package.workflow }} Workflow
+        uses: ./.github/actions/trigger-workflow
+        with:
+          workflow-file: ${{ matrix.package.workflow }}
