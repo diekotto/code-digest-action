@@ -72,14 +72,19 @@ jobs:
     strategy:
       matrix:
         package:
-          - workflow: 'github-package-release.yml'
-          - workflow: 'npm-package-release.yml'
+          - registry: 'https://npm.pkg.github.com'
+            name: 'npm.pkg.github.com'
+            github_token: true
+          - registry: 'https://registry.npmjs.org'
+            name: 'registry.npmjs.org'
+            github_token: false
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Trigger ${{ matrix.package.workflow }} Workflow
-        uses: ./.github/actions/trigger-workflow
+      - name: Trigger ${{ matrix.package.name }} Workflow
+        uses: ./.github/actions/publish-npm-package
         with:
-          workflow-file: ${{ matrix.package.workflow }}
+          registry-url: ${{ matrix.package.registry }}
+          npm-token: ${{ matrix.package.github_token == true && secrets.GITHUB_TOKEN || secrets.NPM_TOKEN }}
