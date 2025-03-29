@@ -74,6 +74,7 @@ async function writeOutput(outputDir, data, format = 'both') {
 
     // Write metadata
     const metadataPath = path.join(outputDir, `metadata-${timestamp}.json`);
+    delete data.metadata.directory; // For privacy
     await fs.writeFile(metadataPath, JSON.stringify(data.metadata, null, 2));
     console.log(`✓ Metadata written to: ${metadataPath}`);
 
